@@ -28,10 +28,17 @@ const CustomModal: React.FC<CustomModalProps> = ({
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Pressable style={styles.closeBtn} onPress={closeModal}>
-              <Icon style={{ backgroundColor: '#F9F9F9', borderRadius: 50, padding: 4 }} name="close" size={28} color="#08979D" />
-            </Pressable>
-
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? '#F9F9F9' : 'white',
+                  },
+                  styles.closeBtn
+                ]} onPress={closeModal}>
+                <Icon name="close" size={28} color="#08979D" />
+              </Pressable>
+            </View>
             {children}
           </View>
         </View>
@@ -64,6 +71,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginBottom: 10,
+    padding: 4,
+    borderRadius: 50
   }
 });
 

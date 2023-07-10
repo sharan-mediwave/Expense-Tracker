@@ -52,7 +52,10 @@ const Dropdown: React.FC<DropdownProps> = ({
                     onFocus ? onFocus() : null;
                     setFocused(true);
                 }}
-                onBlur={() => setFocused(false)}
+                onBlur={() => {
+                    onBlur ? onBlur() : null;
+                    setFocused(false)
+                }}
                 defaultButtonText={'Select country'}
                 buttonTextAfterSelection={(selectedItem, index) => {
                     return selectedItem;
@@ -60,7 +63,7 @@ const Dropdown: React.FC<DropdownProps> = ({
                 rowTextForSelection={(item, index) => {
                     return item;
                 }}
-                buttonStyle={[styles.selectInput, addSelectStyle, { borderColor: isFocused ? '#08979D' : '#0000001A' }]}
+                buttonStyle={[styles.selectInput, addSelectStyle, { borderColor: error ? '#DF3535' : isFocused ? '#08979D' : '#0000001A' }]}
                 buttonTextStyle={[styles.selectInputText, { color: selectedvalue ? '#000' : '#0000005E' }]}
                 renderDropdownIcon={isOpened => {
                     return <Icon name={isOpened ? 'arrow-drop-up' : 'arrow-drop-down'} color={'#08979D'} size={30} />;

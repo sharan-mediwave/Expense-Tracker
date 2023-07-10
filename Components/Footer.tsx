@@ -8,21 +8,25 @@ import {
 } from 'react-native';
 
 interface FooterProps {
-    onPressAdd?: () => any
+    onPressHome?: () => any;
+    onPressAdd?: () => any;
+    onPressStatistics?: () => any;
 }
 
 const Footer: React.FC<FooterProps> = ({
-    onPressAdd
+    onPressAdd,
+    onPressStatistics,
+    onPressHome
 }) => {
     return (
         <View style={styles.footerBlk}>
             <View style={{}}>
                 <View style={styles.footerCenter}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={onPressHome}>
                         <Image source={require('../Assets/Icons/Home.png')} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={onPressStatistics}>
                         <Image source={require('../Assets/Icons/Statistics.png')} />
                     </TouchableOpacity>
 

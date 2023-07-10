@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import DateComponent from './DateComponent'
 import TextBlack from './Common/TextBlack';
 import TextWhite from './Common/TextWhite';
@@ -9,6 +9,7 @@ import Dropdown from './Common/Dropdown';
 import Input from './Common/Input';
 import CustomButton from './Common/CustomButton';
 import { Formik } from 'formik'
+import * as Yup from 'yup';
 
 
 
@@ -63,16 +64,22 @@ const AddForm: React.FC<AddFormProps> = ({
 }) => {
 
 
+
     return (
         <View style={styles.formBlk}>
             <Formik
-                initialValues={initialValues}
+                initialValues={{
+                    amount: '',
+                    category: '',
+                    note: '',
+                }}
                 validationSchema={validationSchema}
                 onSubmit={onSubmitForm}
+            // values => Alert.alert(JSON.stringify(values))
             >
-                {({ errors, setFieldValue, values, handleChange, setFieldTouched, touched }) => (
-                    <>
-                        {console.log('err', errors, touched)}
+                {({ errors, setFieldValue, values, touched, setFieldTouched, submitForm }) => {
+                    const { amount, category, note } = values
+                    return <>
 
                         {/* Date */}
                         <DateComponent
@@ -90,22 +97,26 @@ const AddForm: React.FC<AddFormProps> = ({
                             id='amount'
                             label='Enter the amount'
                             placeholderText='Enter amount'
-                            value={values.name}
+                            value={amount}
                             onChange={(value: any) => {
                                 onChangeAmount(value);
+                                setFieldValue('amount', value);
                             }}
+                            onBlur={() => setFieldTouched('amount')}
                             error={errors.amount}
                             touched={touched.amount}
                         />
 
+
                         {/* Category */}
                         <Dropdown
                             label='Choose category'
-                            selectedvalue={selectedCategory}
+                            selectedvalue={category}
                             options={categoryOption}
-                            onSelect={(value: any) => {
+                            onBlur={() => setFieldTouched('category')}
+                            onSelect={(value) => {
                                 onCategorySelect ? onCategorySelect(value) : null;
-                                setFieldValue("category", value);
+                                setFieldValue('category', value);
                             }}
                             addSelectContainerStyle={{ marginBottom: 0 }}
                             error={errors.category}
@@ -126,18 +137,22 @@ const AddForm: React.FC<AddFormProps> = ({
                             label='Note'
                             placeholderText='Add your notes here...'
                             value={note}
-                            onChange={onChangeNote}
+                            onChange={(value: any) => {
+                                onChangeNote(value);
+                                setFieldValue('note', value);
+                            }}
                             isMultiline={true}
                             noOfLines={4}
                         />
 
                         {/* Submit */}
                         <CustomButton
+
                             text={`Add ${isIncome ? 'income' : 'Expenses'}`}
-                            onClick={onSubmitForm}
+                            onClick={submitForm}
                         />
                     </>
-                )}
+                }}
             </Formik>
         </View>
     )

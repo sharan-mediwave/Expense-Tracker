@@ -15,6 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Input from '../Components/Common/Input'
 import CustomButton from '../Components/Common/CustomButton'
 import * as Yup from 'yup';
+import { Formik } from 'formik'
 
 
 
@@ -101,6 +102,12 @@ const Add = ({ navigation }: any) => {
         title: '',
         iconName: '',
         color: ''
+    })
+
+    const categorySchema = Yup.object().shape({
+        title: Yup.string().required("Title is required"),
+        iconName: Yup.string().required("Icon is required"),
+        color: Yup.string().required("Color is required"),
     })
 
     const icons = [
@@ -196,90 +203,121 @@ const Add = ({ navigation }: any) => {
 
                     </View>
                     <CustomModal showModal={modalVisible} closeModal={onCloseModal}>
-                        <View>
-                            {/*Cat Title */}
-                            <Input
-                                label='Category title'
-                                placeholderText='Enter the title'
-                                value={newCategory.title}
-                                onChange={(value: string) => {
-                                    onChangeCatTitle(value)
-                                }}
-                            />
+                        <Formik
 
-                            {/* Cat Icon */}
-                            <Dropdown
-                                label='Choose icon'
-                                customButton={(selectedItem: any) => {
-                                    return (
-                                        <View style={styles.selectInput}>
-                                            {selectedItem ? (
-                                                <Image source={selectedItem.image} style={styles.selectedIcon} />
-                                            ) : (
-                                                // <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
-                                                null
-                                            )}
-                                            <Text style={[styles.selectText, {
-                                                color: selectedItem ? '#000' : '#0000005E',
-                                                paddingHorizontal: selectedItem ? 10 : 0
-                                            }]}>{selectedItem ? selectedItem.title : 'Choose icon'}</Text>
-                                        </View>
-                                    );
-                                }}
-                                customRow={(item: any) => {
-                                    return (
-                                        <View style={styles.dropdown3RowChildStyle}>
-                                            <Image source={item.image} style={styles.dropdownRowImage} />
-                                            <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
-                                        </View>
-                                    );
-                                }}
-                                selectedvalue={newCategory.iconName}
-                                options={icons}
-                                onSelect={onIconSelect}
-                            />
+                            initialValues={newCategory}
+                            validationSchema={categorySchema}
+                            onSubmit={handleAddCategory}
+                        >
+                            {({ errors, setFieldValue, values, touched, setFieldTouched, submitForm }) => {
+                                const { title, iconName, color } = values
 
-                            {/* Cat color */}
-                            <Dropdown
-                                label='Choose color'
-                                selectedvalue={newCategory.color}
-                                options={colorOption}
-                                onSelect={onCatColorSelect}
-                                customButton={(selectedItem: any) => {
-                                    return (
-                                        <View style={styles.selectColorInput}>
-                                            {selectedItem ? (
-                                                <View style={[styles.color, { backgroundColor: selectedItem.color }]} />
-                                            ) : (
-                                                null
-                                            )}
-                                            <Text style={[styles.selectText, {
-                                                color: selectedItem ? '#000' : '#0000005E',
-                                                paddingHorizontal: selectedItem ? 10 : 0
-                                            }]}>{selectedItem ? selectedItem.title : 'Choose color'}</Text>
-                                        </View>
-                                    );
-                                }}
-                                customRow={(item: any) => {
-                                    return (
-                                        <View style={styles.colorRow}>
-                                            <View style={[styles.color, { backgroundColor: item.color }]} />
-                                            <Text style={styles.colorText}>{item.title}</Text>
-                                        </View>
-                                    );
-                                }}
-                            />
+                                return <View>
+                                    {/*Cat Title */}
+                                    <Input
+                                        id={'title'}
+                                        label='Category title'
+                                        placeholderText='Enter the title'
+                                        value={title}
+                                        onChange={(value: string) => {
+                                            onChangeCatTitle(value);
+                                            setFieldValue('title', value);
+                                        }}
+                                        onBlur={() => setFieldTouched('title')}
+                                        error={errors.title}
+                                        touched={touched.title}
+                                    />
 
-                            {/* cat add */}
-                            <CustomButton
-                                text='Add category'
-                                onClick={handleAddCategory}
-                            />
-                        </View>
+                                    {/* Cat Icon */}
+                                    <Dropdown
+                                        label='Choose icon'
+                                        customButton={(selectedItem: any) => {
+                                            return (
+                                                <View style={styles.selectInput}>
+                                                    {selectedItem ? (
+                                                        <Image source={selectedItem.image} style={styles.selectedIcon} />
+                                                    ) : (
+                                                        // <Ionicons name="md-earth-sharp" color={'#444'} size={32} />
+                                                        null
+                                                    )}
+                                                    <Text style={[styles.selectText, {
+                                                        color: selectedItem ? '#000' : '#0000005E',
+                                                        paddingHorizontal: selectedItem ? 10 : 0
+                                                    }]}>{selectedItem ? selectedItem.title : 'Choose icon'}</Text>
+                                                </View>
+                                            );
+                                        }}
+                                        customRow={(item: any) => {
+                                            return (
+                                                <View style={styles.dropdown3RowChildStyle}>
+                                                    <Image source={item.image} style={styles.dropdownRowImage} />
+                                                    <Text style={styles.dropdown3RowTxt}>{item.title}</Text>
+                                                </View>
+                                            );
+                                        }}
+                                        selectedvalue={newCategory.iconName}
+                                        options={icons}
+                                        onBlur={() => setFieldTouched('iconName')}
+                                        onSelect={(value) => {
+                                            onIconSelect(value);
+                                            setFieldValue('iconName', value);
+                                        }}
+                                        error={errors.iconName}
+                                        touched={touched.iconName}
+                                    />
+
+                                    {/* Cat color */}
+                                    <Dropdown
+                                        label='Choose color'
+                                        selectedvalue={newCategory.color}
+                                        options={colorOption}
+                                        customButton={(selectedItem: any) => {
+                                            return (
+                                                <View style={styles.selectColorInput}>
+                                                    {selectedItem ? (
+                                                        <View style={[styles.color, { backgroundColor: selectedItem.color }]} />
+                                                    ) : (
+                                                        null
+                                                    )}
+                                                    <Text style={[styles.selectText, {
+                                                        color: selectedItem ? '#000' : '#0000005E',
+                                                        paddingHorizontal: selectedItem ? 10 : 0
+                                                    }]}>{selectedItem ? selectedItem.title : 'Choose color'}</Text>
+                                                </View>
+                                            );
+                                        }}
+                                        customRow={(item: any) => {
+                                            return (
+                                                <View style={styles.colorRow}>
+                                                    <View style={[styles.color, { backgroundColor: item.color }]} />
+                                                    <Text style={styles.colorText}>{item.title}</Text>
+                                                </View>
+                                            );
+                                        }}
+                                        onBlur={() => setFieldTouched('color')}
+                                        onSelect={(value) => {
+                                            onIconSelect(value);
+                                            setFieldValue('color', value);
+                                        }}
+                                        error={errors.color}
+                                        touched={touched.color}
+                                    />
+
+                                    {/* cat add */}
+                                    <CustomButton
+                                        text='Add category'
+                                        onClick={submitForm}
+                                    />
+                                </View>
+                            }}
+                        </Formik>
                     </CustomModal>
                 </ScrollView>
                 <Footer
-                    onPressAdd={() => navigation.navigate('Home')}
+                    onPressHome={() => navigation.navigate('Home')}
+                    onPressAdd={() => navigation.navigate('Add')}
+                    onPressStatistics={() => navigation.navigate('Stat')}
+
                 />
             </>
         </BackgroundLayout>

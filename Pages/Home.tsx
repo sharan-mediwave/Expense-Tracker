@@ -91,7 +91,10 @@ const Home = ({ navigation }: any) => {
                     </View>
                 </ScrollView>
                 <Footer
+                    onPressHome={() => navigation.navigate('Home')}
+
                     onPressAdd={() => navigation.navigate('Add')}
+                    onPressStatistics={() => navigation.navigate('Stat')}
                 />
             </>
         </BackgroundLayout>

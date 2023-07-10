@@ -10,6 +10,7 @@ interface CardProps {
     amount?: string;
     type?: string;
     iconColor?: string;
+    percent?: string
 }
 
 const Card: React.FC<CardProps> = ({
@@ -17,13 +18,17 @@ const Card: React.FC<CardProps> = ({
     iconName = '',
     amount = '',
     type,
-    iconColor
+    iconColor,
+    percent = '',
 }) => {
     return (
         <View style={styles.cardBlk}>
             <View style={{ flexDirection: 'row', alignItems: 'center', columnGap: 20 }}>
                 <Icon style={[styles.iconGreen, { backgroundColor: iconColor }]} name={iconName} size={28} color="#fff" />
-                <TextBlack addStyle={{ fontSize: 15 }} text={category} />
+                <View>
+                    <TextBlack addStyle={{ fontSize: 15 }} text={category} />
+                    <TextBlack addStyle={styles.percent} text={percent} />
+                </View>
             </View>
             <TextBlack addStyle={type === amountType.income ? styles.income : styles.expense} text={amount} />
         </View>
@@ -57,6 +62,10 @@ const styles = StyleSheet.create({
     },
     expense: {
         color: '#B91D1D'
+    },
+    percent: {
+        fontSize: 13,
+        color: '#7D7D7D'
     }
 })
 

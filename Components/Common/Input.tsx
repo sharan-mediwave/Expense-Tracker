@@ -53,7 +53,10 @@ const Input: React.FC<InputProps> = ({
                     onFocus ? onFocus() : null;
                     setFocused(true);
                 }}
-                onBlur={() => setFocused(false)}
+                onBlur={() => {
+                    onBlur ? onBlur() : null;
+                    setFocused(false);
+                }}
             />
             {(error && touched) && <TextBlack addStyle={styles.error} text={error} />}
         </View>
