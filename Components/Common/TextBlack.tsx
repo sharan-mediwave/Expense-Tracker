@@ -16,7 +16,7 @@ const TextBlack: React.FC<TextBlackProps> = ({ text, addStyle }) => {
 
 const styles = StyleSheet.create({
     text: {
-        fontFamily: 'varela',
+        // fontFamily: 'varela',
         color: '#000'
     }
 })

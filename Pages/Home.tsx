@@ -55,6 +55,17 @@ const Home = ({ navigation }: any) => {
     const monthAndDate = `${moment(selected || new Date()).format('MMMM')} ${moment(selected || new Date()).format('YYYY')}`
 
 
+    const handlePrev = () => {
+        let month = moment(selected || new Date()).subtract(1, 'months').format('YYYY-MM-DD');
+        setSelected(month);
+    }
+
+    const handleNext = () => {
+        let month = moment(selected || new Date()).add(1, 'months').format('YYYY-MM-DD');
+        setSelected(month);
+    }
+
+
     return (
         <BackgroundLayout>
             <>
@@ -74,8 +85,8 @@ const Home = ({ navigation }: any) => {
                             maxDate={maxDate}
                             selected={selected}
                             onDayPress={onDayPress}
-                        // onPressArrowLeft={onPressArrowLeft}
-                        // onPressArrowRight={onPressArrowRight}
+                            onPressArrowLeft={handlePrev}
+                            onPressArrowRight={handleNext}
 
                         />
                         <HeaderTabs
@@ -90,12 +101,12 @@ const Home = ({ navigation }: any) => {
                         {/* <Button onPress={() => navigation.navigate('Add')} title='Add expense' /> */}
                     </View>
                 </ScrollView>
-                <Footer
+                {/* <Footer
                     onPressHome={() => navigation.navigate('Home')}
 
                     onPressAdd={() => navigation.navigate('Add')}
                     onPressStatistics={() => navigation.navigate('Stat')}
-                />
+                /> */}
             </>
         </BackgroundLayout>
     )

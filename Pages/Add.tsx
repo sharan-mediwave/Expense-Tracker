@@ -313,12 +313,12 @@ const Add = ({ navigation }: any) => {
                         </Formik>
                     </CustomModal>
                 </ScrollView>
-                <Footer
+                {/* <Footer
                     onPressHome={() => navigation.navigate('Home')}
                     onPressAdd={() => navigation.navigate('Add')}
                     onPressStatistics={() => navigation.navigate('Stat')}
 
-                />
+                /> */}
             </>
         </BackgroundLayout>
     )

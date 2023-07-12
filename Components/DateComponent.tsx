@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MIcon from 'react-native-vector-icons/MaterialIcons';
 import TextWhite from './Common/TextWhite';
@@ -39,9 +39,13 @@ const DateComponent: React.FC<DateComponentProps> = ({
         <View style={styles.dateBlk}>
             <View style={styles.dateCenter}>
                 <View style={styles.monthBlk}>
-                    {prevNext ? <MIcon name="chevron-left" size={32} color="#fff" /> : null}
+                    {prevNext ? <Pressable onPress={onPressArrowLeft}>
+                        <MIcon name="chevron-left" size={32} color="#fff" />
+                    </Pressable> : null}
                     <TextWhite text={month} addStyle={[styles.month, prevNext ? null : styles.textBlack]} />
-                    {prevNext ? <MIcon name="chevron-right" size={32} color="#fff" /> : null}
+                    {prevNext ? <Pressable onPress={onPressArrowRight}>
+                        <MIcon name="chevron-right" size={32} color="#fff" />
+                    </Pressable> : null}
                 </View>
                 <View>
                     <TouchableOpacity style={[styles.iconWrapper, prevNext ? { backgroundColor: '#fff' } : { backgroundColor: '#2A96A233' }]} onPress={onDateIconClick}>
@@ -114,6 +118,10 @@ const styles = StyleSheet.create({
         width: '90%',
         borderRadius: 20,
         padding: 5,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 10,
+        shadowRadius: 2,
+        elevation: 5,
     },
     iconWrapper: {
         padding: 4,
