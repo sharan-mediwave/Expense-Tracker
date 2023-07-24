@@ -4,11 +4,12 @@ import { StyleSheet, Text } from 'react-native'
 interface TextWhiteProps {
     text: string;
     addStyle?: {};
+    id?: string;
 }
 
-const TextWhite: React.FC<TextWhiteProps> = ({ text, addStyle }) => {
+const TextWhite: React.FC<TextWhiteProps> = ({ text, addStyle, id }) => {
     return (
-        <Text style={[styles.text, addStyle]}>
+        <Text id={id} style={[styles.text, addStyle]}>
             {text}
         </Text>
     )

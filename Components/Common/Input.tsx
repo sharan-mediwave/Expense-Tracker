@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Keyboard, StyleSheet, TextInput, View } from 'react-native'
 import TextBlack from './TextBlack'
-
+import { inputTypes } from '../../Constants';
 interface InputProps {
     addStyle?: {};
     onChange?: any;
@@ -16,6 +16,9 @@ interface InputProps {
     errorText?: any;
     id?: any;
     touched?: any;
+    type?: string;
+    icon?: any;
+    containerStyle?: {}
 }
 
 const Input: React.FC<InputProps> = ({
@@ -31,17 +34,26 @@ const Input: React.FC<InputProps> = ({
     error,
     errorText,
     id,
-    touched
+    touched,
+    type,
+    icon,
+    containerStyle
 }) => {
 
     const [isFocused, setFocused] = useState(false);
 
     return (
-        <View style={styles.inputContainer}>
-            <TextBlack addStyle={styles.label} text={label} />
+        <View style={[styles.inputContainer, containerStyle]}>
+            {label ? <TextBlack addStyle={styles.label} text={label} /> : null}
             <TextInput
                 id={id}
-                style={[styles.input, addStyle, { borderColor: error ? '#DF3535' : isFocused ? '#08979D' : '#0000001A' }, isMultiline ? { textAlignVertical: 'top' } : null]}
+                style={[
+                    styles.input,
+                    addStyle,
+                    { borderColor: error ? '#DF3535' : isFocused ? '#08979D' : '#0000001A' },
+                    isMultiline ? { textAlignVertical: 'top' } : null,
+                    icon ? { paddingRight: 45 } : null,
+                ]}
                 onChangeText={onChange}
                 value={value}
                 placeholder={placeholderText}
@@ -58,6 +70,7 @@ const Input: React.FC<InputProps> = ({
                     setFocused(false);
                 }}
             />
+            {icon ? <View style={styles.icon}>{icon}</View> : null}
             {(error && touched) && <TextBlack addStyle={styles.error} text={error} />}
         </View>
     )
@@ -90,6 +103,11 @@ const styles = StyleSheet.create({
         color: '#DF3535',
         marginLeft: 5,
         marginTop: 7,
+    },
+    icon: {
+        position: 'absolute',
+        top: 10,
+        right: 10
     }
 })
 export default Input

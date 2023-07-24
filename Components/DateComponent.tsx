@@ -22,7 +22,7 @@ interface DateComponentProps {
 }
 
 const DateComponent: React.FC<DateComponentProps> = ({
-    month,
+    month = '',
     onDateIconClick,
     selected,
     onDayPress,
@@ -39,11 +39,11 @@ const DateComponent: React.FC<DateComponentProps> = ({
         <View style={styles.dateBlk}>
             <View style={styles.dateCenter}>
                 <View style={styles.monthBlk}>
-                    {prevNext ? <Pressable onPress={onPressArrowLeft}>
+                    {prevNext ? <Pressable role='button' aria-label='previous month' accessibilityLabelledBy={'month'} onPress={onPressArrowLeft}>
                         <MIcon name="chevron-left" size={32} color="#fff" />
                     </Pressable> : null}
-                    <TextWhite text={month} addStyle={[styles.month, prevNext ? null : styles.textBlack]} />
-                    {prevNext ? <Pressable onPress={onPressArrowRight}>
+                    <TextWhite text={month} id='month' addStyle={[styles.month, prevNext ? null : styles.textBlack]} />
+                    {prevNext ? <Pressable role='button' aria-label='next month' onPress={onPressArrowRight}>
                         <MIcon name="chevron-right" size={32} color="#fff" />
                     </Pressable> : null}
                 </View>

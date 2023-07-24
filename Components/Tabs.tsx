@@ -30,8 +30,9 @@ const Tabs: React.FC<TabsProps> = ({
                     position: 'relative',
                     height: 70,
                 },
-                headerShown: false
+                headerShown: false,
             }}
+            backBehavior='history'
         >
             <Tab.Screen
                 name="HomeStack"
