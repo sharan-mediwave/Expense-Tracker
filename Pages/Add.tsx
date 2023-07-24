@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BackgroundLayout from '../Components/BackgroundLayout'
 import { ScrollView, StyleSheet, Text, View, useColorScheme, StatusBar, TextInput, Keyboard, Image } from 'react-native'
 import Footer from '../Components/Footer'
@@ -211,6 +211,7 @@ const Add = ({ navigation }: any) => {
                                 onDayPress={onDayPress}
                                 maxDate={maxDate}
                                 show={showCalendar}
+                                selected={selectedDate}
                             // errors={errors}
                             />
                         </View>
@@ -224,14 +225,13 @@ const Add = ({ navigation }: any) => {
                             onSubmit={handleAddCategory}
                         >
                             {({ errors, setFieldValue, values, touched, setFieldTouched, submitForm }) => {
-                                const { title, iconName, color } = values
                                 return <View>
                                     {/*Cat Title */}
                                     <Input
                                         id={'title'}
                                         label='Category title'
                                         placeholderText='Enter the title'
-                                        value={title}
+                                        value={newCategory.title}
                                         onChange={(value: string) => {
                                             onChangeCatTitle(value);
                                             setFieldValue('title', value);
@@ -273,7 +273,7 @@ const Add = ({ navigation }: any) => {
                                         onBlur={() => setFieldTouched('iconName')}
                                         onSelect={(value) => {
                                             onIconSelect(value);
-                                            setFieldValue('iconName', value);
+                                            setFieldValue('iconName', value.title);
                                         }}
                                         error={errors.iconName}
                                         touched={touched.iconName}
@@ -309,8 +309,8 @@ const Add = ({ navigation }: any) => {
                                         }}
                                         onBlur={() => setFieldTouched('color')}
                                         onSelect={(value) => {
-                                            onIconSelect(value);
-                                            setFieldValue('color', value);
+                                            onCatColorSelect(value);
+                                            setFieldValue('color', value.title);
                                         }}
                                         error={errors.color}
                                         touched={touched.color}

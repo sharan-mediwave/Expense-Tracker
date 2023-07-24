@@ -74,7 +74,7 @@ const AddForm: React.FC<AddFormProps> = ({
             // values => Alert.alert(JSON.stringify(values))
             >
                 {({ errors, setFieldValue, values, touched, setFieldTouched, submitForm }) => {
-                    const { amount, category, note } = values
+                    // const { amount, category, note } = values
                     return <>
 
                         {/* Date */}
