@@ -30,17 +30,7 @@ const Add = ({ navigation }: any) => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-    const [amount, onChangeAmount] = useState('');
-
-    const [note, onChangeNote] = useState('');
-
-    const [selected, setSelected] = useState(new Date());
-
-    const [errors, setErrors] = useState({
-        amount: null,
-        category: null,
-        note: null,
-    })
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
     const [initialValues, setInitialValues] = useState({
         amount: '',
@@ -54,20 +44,40 @@ const Add = ({ navigation }: any) => {
         note: Yup.string().optional(),
     })
 
-    const monthAndDate = moment(selected || new Date()).format('Do MMMM YYYY')
+    const onChangeNote = (value: any) => {
+        setInitialValues((prev: any) => ({
+            ...prev,
+            note: value,
+        }))
+    }
+
+    const onChangeAmount = (value: any) => {
+        setInitialValues((prev: any) => ({
+            ...prev,
+            amount: value,
+        }))
+    }
+
+    const onCategorySelect = (value: any) => {
+        setInitialValues((prev: any) => ({
+            ...prev,
+            category: value,
+        }))
+    }
+
+    const monthAndDate = moment(selectedDate || new Date()).format('Do MMMM YYYY')
 
     // const monthAndDate = `${moment(selected || new Date()).format('MMMM')} ${moment(selected || new Date()).format('YYYY')}`
 
 
     const categoryOption = ["Food", "Travel", "Groceries", "Medicine"]
-    const [category, setCategory] = useState('');
 
     const [showCalendar, setShowCalendar] = useState(false);
 
     const maxDate = moment(new Date()).format('YYYY-MM-DD').toString();
 
     const onDayPress = (day: any) => {
-        setSelected(day.dateString);
+        setSelectedDate(day.dateString);
         setShowCalendar(false);
     }
 
@@ -80,21 +90,25 @@ const Add = ({ navigation }: any) => {
     }
 
     const onSubmitForm = () => {
-        console.log("values", amount, category, note, selected);
+        console.log("values", initialValues, selectedDate);
     }
 
 
     const onBackArrowPress = () => {
-        navigation.goBack()
+        navigation.goBack();
+        setInitialValues({
+            amount: '',
+            category: '',
+            note: '',
+        })
+        setSelectedDate(new Date())
     }
 
     const onAddNewCategory = () => {
         setModalVisible(!modalVisible)
     }
 
-    const onCategorySelect = (value: any) => {
-        setCategory(value);
-    }
+
 
 
     // new cat
@@ -185,12 +199,12 @@ const Add = ({ navigation }: any) => {
                                 isIncome={isIncome}
                                 onSubmitForm={onSubmitForm}
                                 onAddNewCategory={onAddNewCategory}
-                                amount={amount}
-                                note={note}
+                                amount={initialValues.amount}
+                                note={initialValues.note}
                                 onChangeNote={onChangeNote}
                                 onChangeAmount={onChangeAmount}
                                 categoryOption={categoryOption}
-                                selectedCategory={category}
+                                selectedCategory={initialValues.category}
                                 onCategorySelect={onCategorySelect}
                                 month={monthAndDate}
                                 onDateIconClick={() => setShowCalendar(!showCalendar)}
@@ -211,7 +225,6 @@ const Add = ({ navigation }: any) => {
                         >
                             {({ errors, setFieldValue, values, touched, setFieldTouched, submitForm }) => {
                                 const { title, iconName, color } = values
-
                                 return <View>
                                     {/*Cat Title */}
                                     <Input

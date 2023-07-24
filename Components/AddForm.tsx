@@ -68,11 +68,7 @@ const AddForm: React.FC<AddFormProps> = ({
     return (
         <View style={styles.formBlk}>
             <Formik
-                initialValues={{
-                    amount: '',
-                    category: '',
-                    note: '',
-                }}
+                initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={onSubmitForm}
             // values => Alert.alert(JSON.stringify(values))
@@ -111,7 +107,7 @@ const AddForm: React.FC<AddFormProps> = ({
                         {/* Category */}
                         <Dropdown
                             label='Choose category'
-                            selectedvalue={category}
+                            selectedvalue={selectedCategory}
                             options={categoryOption}
                             onBlur={() => setFieldTouched('category')}
                             onSelect={(value) => {

@@ -50,7 +50,7 @@ const Input: React.FC<InputProps> = ({
                 style={[
                     styles.input,
                     addStyle,
-                    { borderColor: error ? '#DF3535' : isFocused ? '#08979D' : '#0000001A' },
+                    { borderColor: error && touched ? '#DF3535' : isFocused ? '#08979D' : '#0000001A' },
                     isMultiline ? { textAlignVertical: 'top' } : null,
                     icon ? { paddingRight: 45 } : null,
                 ]}
